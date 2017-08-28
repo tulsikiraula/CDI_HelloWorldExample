@@ -5,8 +5,9 @@ import javax.enterprise.context.ApplicationScoped;
 @ApplicationScoped
 public class HelloWorld {
 	
-	public void display(){
-		System.out.println("Inside Hello world");
+	public String display(){
+		System.out.println("inside Hello World");
+		return "Hello world";
 	}
 
 }
