@@ -29,6 +29,12 @@
 				<artifactId>geronimo-jcdi_1.1_spec</artifactId>
 				<version>${apache.geronimo.version}</version>
 			</dependency>
+			 <dependency>
+            <groupId>org.apache.geronimo.specs</groupId>
+            <artifactId>geronimo-el_2.2_spec</artifactId>
+           	<version>${apache.geronimo.version}</version>
+            <scope>provided</scope>
+        </dependency>
 		<dependency>
 			<groupId>org.apache.openwebbeans</groupId>
 			<artifactId>openwebbeans-impl</artifactId>

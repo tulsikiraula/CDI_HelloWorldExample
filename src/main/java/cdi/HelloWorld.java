@@ -1,8 +1,10 @@
 package cdi;
 
 import javax.enterprise.context.ApplicationScoped;
+import javax.enterprise.inject.Default;
 
 @ApplicationScoped
+@Default
 public class HelloWorld {
 	
 	public String display(){

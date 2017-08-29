@@ -2,6 +2,7 @@ package cdi;
 
 import static org.junit.Assert.assertTrue;
 
+import javax.annotation.Resource;
 import javax.inject.Inject;
 
 import org.apache.webbeans.config.WebBeansContext;
