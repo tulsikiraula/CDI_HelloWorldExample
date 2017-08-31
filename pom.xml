@@ -7,6 +7,7 @@
 	<properties>
 		<openwebbeans.version>1.6.2</openwebbeans.version>
 		<apache.geronimo.version>1.0</apache.geronimo.version>
+		 <deltaspike-version>1.5.2</deltaspike-version>
 	</properties>
 	<dependencies>
 			<dependency>
@@ -51,5 +52,36 @@
 			<version>4.11</version>
 			<scope>test</scope>
 		</dependency>
+	<dependency>
+		<groupId>org.apache.deltaspike.core</groupId>
+		<artifactId>deltaspike-core-api</artifactId>
+		<version>${deltaspike-version}</version>
+		<scope>test</scope>
+	</dependency>
+	<dependency>
+		<groupId>org.apache.deltaspike.core</groupId>
+		<artifactId>deltaspike-core-impl</artifactId>
+		<version>${deltaspike-version}</version>
+		<scope>test</scope>
+	</dependency>
+	<dependency>
+		<groupId>org.apache.deltaspike.cdictrl</groupId>
+		<artifactId>deltaspike-cdictrl-owb</artifactId>
+		<version>${deltaspike-version}</version>
+		<scope>test</scope>
+	</dependency>
+	<dependency>
+		<groupId>org.apache.deltaspike.modules</groupId>
+		<artifactId>deltaspike-test-control-module-api</artifactId>
+		<version>${deltaspike-version}</version>
+		<scope>test</scope>
+	</dependency>
+	<dependency>
+		<groupId>org.apache.deltaspike.modules</groupId>
+		<artifactId>deltaspike-test-control-module-impl</artifactId>
+		<version>${deltaspike-version}</version>
+		<scope>test</scope>
+	</dependency>
+		
 	</dependencies>
 </project>
