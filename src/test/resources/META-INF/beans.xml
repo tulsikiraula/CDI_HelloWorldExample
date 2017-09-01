@@ -6,4 +6,8 @@ http://java.sun.com/xml/ns/javaee/beans_1_0.xsd">
 <class>interceptors.LoggingInterceptor</class>
 </interceptors>
 
+<!--  <decorators>
+ <class>decorator.Decorator</class>
+ </decorators> -->
+
 </beans> 	 	
