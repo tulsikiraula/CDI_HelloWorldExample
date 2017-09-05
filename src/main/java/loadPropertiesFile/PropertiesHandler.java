@@ -4,7 +4,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
@@ -35,10 +35,11 @@ private static PropertiesHandler propertiesHandler = new PropertiesHandler();
 	}
 	
 	private static void manageDefaultProperties() throws IOException {
-		Map<String,String> defaultProps = new HashMap<>();
+		Map<String,String> defaultProps = new LinkedHashMap<>();
 		defaultProps.put("com.kiraula.tulsi.project", "cdi");
 		defaultProps.put("com.kiraula.tulsi.package", "loadPropertiesFile");
 		defaultProps.put("com.kiraula.tulsi.compiler", "1.8");
+		
 		saveProperty(defaultProps,"props/cdi.properties");
 	}
 

@@ -1,0 +1,168 @@
+A ref cursor is a variable, defined as a cursor type, which will point to, or reference a cursor result. The advantage that a ref cursor has over a plain cursor is that is can be passed as a variable to a procedure or a function. The ref cursor can be assigned to other ref cursor variables. This is a powerful capability in that the cursor can be opened, then passed to another block for processing, then returned to the original block to be closed. The cursor variable can also be returned by a function and assigned to another variable. The ref cursor variable is not a cursor, but a variable that points to a cursor. Before assigning a cursor variable, a cursor type must be defined.
+
+type author_cursor is ref cursor;
+
+This "REF CURSOR" is a weak typed cursor variable because it does not define the datatype the cursor will return. Below is the same cursor that is strongly typed.
+
+type author_cursor is ref cursor
+returning author%rowtype;
+
+By strongly typing the cursor variable, you define what the cursor can return. If a strongly typed cursor returns something other that its return type, a "ROWTYPE_MISMATCH" exception is raised. A strongly typed cursor type is less flexible but less prone to programming errors. The PL/SQL compiler will verify that the "FETCH clause" has the correct variable/record for the cursor return type at compile time.
+
+Once the cursor type is defined, the actual variable can be defined as the cursor type.
+
+c1 author_cursor;
+
+Now c1 is a variable of a cursor type. It is opened using a SQL statement.
+
+open c1 for select * from authors;
+
+Now c1 has all the attributes of the actual cursor. As with any cursor it is important to close the cursor as soon as you have completed processing.
+
+SQL> declare
+2 type auth_cursor is ref cursor;
+3 c1 auth_cursor;
+4 r_c1 author%rowtype;
+5 begin
+6 open c1 for select * from author;
+7 fetch c1 into r_c1;
+8 if c1%isopen then
+9 dbms_output.put_line('The Cursor is open.');
+10 end if;
+11 dbms_output.put_line('Row Count is '||c1%rowcount);
+12 close c1;
+13 if not c1%isopen then
+14 dbms_output.put_line('The Cursor is closed.');
+15 end if;
+16 end;
+17 /
+
+
+The Cursor is open.
+Row Count is 1
+The Cursor is closed.
+
+Here some of the cursor attributes are used to process the cursor. Notice that the record used to hold a fetched cursor row is defined as an author table "%rowtype". Even though the example cursor variable is defined, the record can not use it because the cursor variable return type is not defined. The example below attempts to create a cursor %rowtype variable for processing.
+
+SQL> declare
+2 type auth_cursor is ref cursor;
+3 c1 auth_cursor;
+4 r_c1 c1%rowtype;
+5 begin
+6 null;
+7 end;
+8 /
+r_c1 c1%rowtype;
+*
+ERROR at line 4:
+ORA-06550: line 4, column 8:
+PLS-00320: the declaration of the type of this
+expression is incomplete or malformed
+ORA-06550: line 4, column 8:
+PL/SQL: Item ignored
+
+However, a strongly typed cursor can use the cursor variable to define the cursor record.
+
+SQL> declare
+2 type auth_cursor is ref cursor return author%rowtype;
+3 c1 auth_cursor;
+4 r_c1 c1%rowtype;
+5 begin
+6 null;
+7 end;
+8 /
+
+In this example, the auth_cursor type returns an author%rowtype. Because this is defined in line 2, the record defined in line 4 can now use it.
+
+Cursor variables that are weakly typed can be defined to return any values. In the example below, the cursor variable c1 is defined as three different statements.
+
+SQL> declare
+2 type auth_cursor is ref cursor;
+3 c1 auth_cursor;
+4 r_c1 author%rowtype;
+5 r2_c1 book%rowtype;
+6 r3_c1 number;
+7 begin
+8 open c1 for select * from author;
+9 fetch c1 into r_c1;
+10 close c1;
+11 open c1 for select * from book;
+12 fetch c1 into r2_c1;
+13 close c1;
+14 open c1 for select sum(quantity)
+15 from store join sales using (store_key)
+16 group by store_name;
+17 fetch c1 into r3_c1;
+18 close c1;
+19 end;
+20 /
+
+Although the block does not do anything but open and close the cursor variable, it does demonstrate that weakly typed variables can be defined differently each time the variable is opened. But what happens when a cursor variable is defined with a SQL statement but returns unexpected values? Below is an example of defining a cursor variable of one type and the record as another. The cursor variable is returning all columns in the book table, but the receiving variable is defined as a record of columns from the author table.
+
+SQL> declare
+2 type auth_cursor is ref cursor;
+3 c1 auth_cursor;
+4 r_c1 author%rowtype;
+5 begin
+6 open c1 for select * from book;
+7 fetch c1 into r_c1;
+8 close c1;
+9 end;
+10 /
+declare
+*
+ERROR at line 1:
+ORA-06504: PL/SQL: Return types of Result Set
+variables or query do not match
+ORA-06512: at line 7
+
+Notice that the error message is pointing to the DECLARE clause. That is because the block successfully compiled and only threw the error when it was executed. The PL/SQL compiler can not catch the error because the cursor type did not define a return type. By changing the definition of the cursor type to a strongly typed definition, the compiler will catch this error when the code is compiled.
+
+SQL> declare
+2 type auth_cursor is ref cursor
+3 return book%rowtype;
+4 c1 auth_cursor;
+5 r_c1 author%rowtype;
+6 begin
+7 open c1 for select * from book;
+8 fetch c1 into r_c1;
+9 close c1;
+10 end;
+11 /
+
+fetch c1 into r_c1;
+*
+ERROR at line 8:
+ORA-06550: line 8, column 5:
+PLS-00394: wrong number of values in the INTO
+list of a FETCH statement
+ORA-06550: line 8, column 5:
+PL/SQL: SQL Statement ignored
+
+Now the compiler catches the error. So far the examples have been using the cursor variables as regular cursors. The real advantage of using a cursor variable is the ability to pass it as a parameter. In the example below a local function is used to open a cursor called c1 and return it.
+The block body calls the function to assign the cursor to the cursor variable c2. The block body then processes the cursor and closes it.
+
+SQL> declare
+2 type auth_cursor is ref cursor
+return author%rowtype;
+3 c2 auth_cursor;
+4 r_c2 c2%rowtype;
+5
+6 function get_auth return auth_cursor
+7 is
+8 c1 auth_cursor;
+9 begin
+10 open c1 for select * from author;
+11 return c1;
+12 end;
+13
+14 begin
+15 c2 := get_auth;
+16 loop
+17 fetch c2 into r_c2;
+18 exit when c2%notfound;
+19 dbms_output.put_line(initcap(r_c2.author_last_name));
+20 end loop;
+21 close c2;
+22 end;
+23 /
