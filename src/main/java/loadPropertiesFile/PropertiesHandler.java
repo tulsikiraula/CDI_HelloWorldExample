@@ -52,8 +52,16 @@ private static PropertiesHandler propertiesHandler = new PropertiesHandler();
 
 	}
 
+	public static String getPropertyValue(final String key, final String filePath) throws IOException {
+		// propertiesHandler.clear();
+		propertiesHandler.load(PropertiesHandler.class.getClassLoader().getResourceAsStream(filePath));
+		return propertiesHandler.getProperty(key);
+	}
+
+
 	public static void main(String[] args) throws IOException {
 		managePropertyFile();
+		System.out.println(getPropertyValue("com.kiraula.tulsi.compiler","props/cdi.properties"));
 	}
 
 }
