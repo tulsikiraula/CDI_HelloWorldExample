@@ -22,7 +22,7 @@ public class TestCallable {
 			pe.runProcedure(getConnection());
 			
 			ProcedureExecutor pe1 =  new ProcedureExecutor("getEmployeeDetails");
-			pe1.addArgument(java.sql.Types.INTEGER,5);
+			pe1.addArgument(java.sql.Types.INTEGER,2);
 			pe1.addArgument(java.sql.Types.VARCHAR, "result", true);
 			pe1.runProcedure(getConnection());
 			

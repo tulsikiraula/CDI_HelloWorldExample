@@ -22,8 +22,9 @@ public class ProcedureExecutor {
 	public void runProcedure(Connection connection) {
 		try (final CallableStatement callableStatement = prepareCallableStatement(connection)){
 		if(callableStatement != null) {
+			 String output =  null;
 			callableStatement.execute();
-		    String output =	callableStatement.getString(2);
+		    output =	callableStatement.getString(2);
 		    System.out.println(output);
 			System.out.println("procedure executed successfully");
 		}
@@ -76,7 +77,7 @@ public class ProcedureExecutor {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-
+		
 		return callable;
 	}
 
