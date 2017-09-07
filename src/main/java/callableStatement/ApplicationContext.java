@@ -1,38 +1,31 @@
 package callableStatement;
 
-import java.sql.SQLException;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.Properties;
 
-import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
-
-import oracle.jdbc.pool.OracleDataSource;
+import javax.servlet.annotation.WebListener;
 
 /**
  * Application Lifecycle Listener implementation class ApplicationContext
  *
  */
+@WebListener
 public class ApplicationContext implements ServletContextListener {
 
 	@Override
 	public void contextInitialized(ServletContextEvent sce) {
 		
-		ServletContext context = sce.getServletContext();
-		final String driver = "oracle.jdbc.driver.OracleDriver";
-		final String url = "jdbc:oracle:thin:@10.151.57.58:1521:orcl";
-		final String user = "kiraula1";
-		final String password = "kiraula1";
-		
+		FileInputStream fis;
+		Properties props = new Properties();
 		try {
-			final OracleDataSource oracleDS = new OracleDataSource();
-			oracleDS.setURL(url);
-			oracleDS.setUser(user);
-			oracleDS.setPassword(password);
-			
-		} catch (SQLException e) {
+			fis = new FileInputStream("procedure.sql");
+			props.load(fis);
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
 	}
 
 	@Override

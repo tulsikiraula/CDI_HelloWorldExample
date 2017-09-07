@@ -24,8 +24,14 @@ public class ProcedureExecutor {
 		if(callableStatement != null) {
 			 String output =  null;
 			callableStatement.execute();
+			
 		    output =	callableStatement.getString(2);
 		    System.out.println(output);
+		    
+			/*ResultSet rs= (ResultSet) callableStatement.getObject(2);
+			while(rs.next()) {
+				System.out.println(rs.getString(2));
+			}*/
 			System.out.println("procedure executed successfully");
 		}
 		}catch(Exception e) {

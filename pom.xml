@@ -14,6 +14,7 @@
 		<sun.servlet.version>2.2.8</sun.servlet.version>
 		<oracle.ojdbc.version>11.2.0.4</oracle.ojdbc.version>
 		<commons.dbcp.version>1.4</commons.dbcp.version>
+		<flydb.version>4.0.3</flydb.version>
 		
 		
 	</properties>
@@ -135,6 +136,19 @@
 		<artifactId>commons-dbcp</artifactId>
 		<version>${commons.dbcp.version}</version>
 	</dependency>
+
+	<dependency>
+		<groupId>org.flywaydb</groupId>
+		<artifactId>flyway-core</artifactId>
+		<version>${flydb.version}</version>
+	</dependency>
+<!-- 
+	<dependency>
+		<groupId>org.postgresql</groupId>
+		<artifactId>postgresql</artifactId>
+		<version>9.4-1204-jdbc41</version>
+	</dependency> -->
+	
   </dependencies>
   
   
