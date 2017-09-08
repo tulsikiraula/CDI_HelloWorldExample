@@ -3,14 +3,14 @@ create table employee(
 	name varchar(255) not null,
 	salary number not null
 );
-
+/
 insert into employee values(1,'tulsi',500);
-
-create or replace procedure message
-as 
-begin
-dbms_output.put_line('this is my first procedure');
-end;
+/
+--create or replace procedure message
+--as 
+--begin
+--dbms_output.put_line('this is my first procedure');
+--end;
 
 
 --execute the created procedure
@@ -26,8 +26,9 @@ create or replace
 PROCEDURE UPDATEEMPLOYEENAME(id in number , name in varchar2 , salary in number) IS 
 BEGIN
 insert into employee values (id,name,salary);
+commit;
 END UPDATEEMPLOYEENAME;
-
+/
 
 
 create or replace procedure getEmployeeDetails2(id in Employee.id%type , result out varchar2) Is
@@ -43,4 +44,8 @@ begin
      end loop;
   close employee_cursor;
  end;
+commit;
 end;
+/
+
+execute getEmployeeDetails2();
