@@ -13,17 +13,20 @@ import javax.inject.Inject;
 import org.apache.webbeans.config.WebBeansContext;
 import org.apache.webbeans.spi.ContainerLifecycle;
 
-
-
-
-
-
 public class TestHelloWorld {
 
-	@Inject
+	//@Inject
 	private HelloWorld helloWorld;
 	
+	@Inject
+	public TestHelloWorld(HelloWorld helloWorld) {
+		this.helloWorld = helloWorld;
+	}
+
+
 	@SuppressWarnings("unchecked")
+	
+	
 	
 	
 	//In our project, it has been set at application startup
@@ -44,7 +47,7 @@ public class TestHelloWorld {
 	}
 	
 	
-	public static void main(String[] args) {
+	/*public static void main(String[] args) {
 		
 		ContainerLifecycle lifecycle;
 		
@@ -58,7 +61,7 @@ public class TestHelloWorld {
 		testHelloWorld.show();
 		
 		lifecycle.stopApplication(null);
-	}
+	}*/
 	public void show() {
 		System.out.println("inside TestHelloWorld") ;
 		if(helloWorld!=null)

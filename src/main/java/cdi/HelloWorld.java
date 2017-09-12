@@ -2,7 +2,6 @@ package cdi;
 
 import javax.enterprise.inject.Default;
 
-@Default
 public class HelloWorld {
 	
 	public String display(){
